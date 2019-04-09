@@ -1,46 +1,28 @@
-//! A cargo subcommand for building project inside docker and get outputs back.
+//! A cargo subcommand for building fortanix projects inside docker and getting the results back.
 
 #[macro_use]
 extern crate clap;
 
 use std::env;
 use std::process::Command;
-use clap::{App, AppSettings, SubCommand, Arg};
+
+use clap::{App, AppSettings, SubCommand};
 
 fn main() {
-    let app = App::new("cargo-docker")
+    let app = App::new("cargo-count")
         .bin_name("cargo")
         .setting(AppSettings::SubcommandRequired)
-        .subcommand(SubCommand::with_name("docker")
+        .subcommand(SubCommand::with_name("fortanix")
             .version(concat!("v", crate_version!()))
-            .author("Denis Kolodin <DenisKolodin@gmail.com>")
-            .about("Build Rust code with Docker")
-            .arg(Arg::with_name("image")
-                .short("i")
-                .long("image")
-                .value_name("image")
-                .help("Image to use for building")
-                .required(true)
-                .takes_value(true))
-            .arg(Arg::with_name("output")
-                .short("o")
-                .long("output")
-                .value_name("output")
-                .help("Output directory")
-                .takes_value(true)));
+            .author("Steven Skone <steven@skone.net>")
+            .about("Build Rust code targetting fortanix in docker"));
 
     let m = app.get_matches();
 
-    if let Some(matches) = m.subcommand_matches("docker") {
-
+    if m.subcommand_matches("fortanix").is_some() {
         let p = env::current_dir().unwrap();
         let source_folder = format!("{}:/source", p.display());
-
-        let output_folder = matches.value_of("output").unwrap_or("output");
-        let target_folder = format!("{}/{}:/source/target", p.display(), output_folder);
-        let cargo_folder = format!("{}/{}/.cargo:/root/.cargo", p.display(), output_folder);
-
-        let image = matches.value_of("image").unwrap();
+        let target_folder = format!("{}/{}:/source/target", p.display(), "fortanix");
 
         let mut command = Command::new("docker")
             // Run new container
@@ -52,9 +34,8 @@ fn main() {
             // Attach virtual volume with sources
             .args(&["-v", &source_folder])
             .args(&["-v", &target_folder])
-            .args(&["-v", &cargo_folder])
-            .arg(image)
-            .args(&["build", "--all", "--release"])
+            .arg("sskone/rust-builder-fortanix")
+            .args(&["build", "--all", "--release", "--target", "x86_64-fortanix-unknown-sgx"])
             .spawn()
             .expect("failed to execute docker");
 
