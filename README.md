@@ -1,35 +1,23 @@
-# cargo-docker
+# cargo-fortanix
 
-A cargo subcommand to build Rust code inside docker and get the result back.
+A cargo subcommand to build Rust code targeting the fortanix platform inside docker and get the result back.
 
-It's useful to build binary with other environment. As example, you can build binary for `CentOS` inside `Ubuntu`.
+This is useful if you need to compile for fortanix on MacOs or you don't want to install the fortanix toolchain
+
+## Install
+
+To install `cargo-fortanix` you should type the following:
+```sh
+$ cargo install cargo-fortanix
+```
+
 
 ## Usage
 
-To use `cargo-docker` you should type the following:
+To use `cargo-fortanix` you should type the following:
 
 ```sh
-$ cargo docker --image=rustup/debian:jessie --output=jessie-target
+$ cargo fortanix
 ```
 
-### Important
-
-This command uses docker without sudo and you have to get rights to use docker.
-
-Add `docker` group:
-
-```sh
-$ sudo groupadd docker
-$ sudo service docker restart
-```
-
-> Not necessary if you have installed new version of docker.
-
-Add yourself to `docker` group:
-
-```sh
-$ sudo gpasswd -a ${USER} docker
-```
-
-Login again to update user flags.
 

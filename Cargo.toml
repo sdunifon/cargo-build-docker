@@ -2,7 +2,7 @@
 name = "cargo-fortanix"
 version = "0.0.1"
 authors = ["Steve <steven@skone.net>"]
-repository = "https://github.com/skone/cargo-docker"
+repository = "https://github.com/skone/cargo-fortanix"
 description = "A cargo subcommand to build binary targeting the fortanix platform"
 readme = "README.md"
 license = "MIT"
