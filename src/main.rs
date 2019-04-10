@@ -22,7 +22,7 @@ fn main() {
     if m.subcommand_matches("fortanix").is_some() {
         let p = env::current_dir().unwrap();
         let source_folder = format!("{}:/source", p.display());
-        let target_folder = format!("{}/{}:/source/target", p.display(), "fortanix");
+        let target_folder = format!("{}/{}:/source/target", p.display(), "target");
 
         let mut command = Command::new("docker")
             // Run new container
