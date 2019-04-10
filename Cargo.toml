@@ -1,6 +1,6 @@
 [package]
 name = "cargo-fortanix"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["Steve <steven@skone.net>"]
 repository = "https://github.com/skone/cargo-fortanix"
 description = "A cargo subcommand to build binary targeting the fortanix platform"
