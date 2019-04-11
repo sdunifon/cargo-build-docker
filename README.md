@@ -1,4 +1,4 @@
-# cargo-docker-build
+# cargo-docker-builder
 
 This is a fork of [cargo-docker](https://github.com/DenisKolodin/cargo-docker)
 
@@ -6,15 +6,15 @@ A cargo subcommand to build Rust code using the standard rust docker containers
 
 ## Install
 
-To install `cargo-docker-build` you should type the following:
+To install `cargo-docker-builder` you should type the following:
 ```sh
-$ cargo install cargo-docker-build
+$ cargo install cargo-docker-builder
 ```
 
 
 ## Usage
 
-To use `cargo-docker-build` you should type the following:
+To use `cargo-docker-builder` you should type the following:
 
 ```sh
 $ cargo docker [--image rust:1.33.0]
