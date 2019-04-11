@@ -1,6 +1,6 @@
 [package]
 name = "cargo-docker-builder"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["Steve <steven@skone.net>"]
 repository = "https://github.com/skone/cargo-docker-build"
 description = "A cargo subcommand to build rust using docker"
