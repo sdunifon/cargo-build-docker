@@ -1,23 +1,30 @@
-# cargo-fortanix
+# cargo-docker-build
 
-A cargo subcommand to build Rust code targeting the fortanix platform inside docker and get the result back.
+This is a fork of [cargo-docker](https://github.com/DenisKolodin/cargo-docker)
 
-This is useful if you need to compile for fortanix on MacOs or you don't want to install the fortanix toolchain
+A cargo subcommand to build Rust code using the standard rust docker containers
 
 ## Install
 
-To install `cargo-fortanix` you should type the following:
+To install `cargo-docker-build` you should type the following:
 ```sh
-$ cargo install cargo-fortanix
+$ cargo install cargo-docker-build
 ```
 
 
 ## Usage
 
-To use `cargo-fortanix` you should type the following:
+To use `cargo-docker-build` you should type the following:
 
 ```sh
-$ cargo fortanix
+$ cargo docker [--image rust:1.33.0]
 ```
 
+Specifying the image is optional, if it's omitted it will use the rust:1.33.0 image
 
+At the moment this runs the following command inside the container
+
+```bash
+cargo build --release --lib
+```
+This will be updated in future to allow arbitrary cargo commands to be passed through

@@ -21,7 +21,7 @@ version = "0.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "cargo-fortanix"
+name = "cargo-docker-builder"
 version = "0.0.2"
 dependencies = [
  "clap 2.23.3 (registry+https://github.com/rust-lang/crates.io-index)",

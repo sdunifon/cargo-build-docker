@@ -1,14 +1,14 @@
 [package]
-name = "cargo-fortanix"
+name = "cargo-docker-builder"
 version = "0.0.2"
 authors = ["Steve <steven@skone.net>"]
-repository = "https://github.com/skone/cargo-fortanix"
-description = "A cargo subcommand to build binary targeting the fortanix platform"
+repository = "https://github.com/skone/cargo-docker-build"
+description = "A cargo subcommand to build rust using docker"
 readme = "README.md"
 license = "MIT"
 
 [[bin]]
-name = "cargo-fortanix"
+name = "cargo-docker-builder"
 
 [dependencies]
 clap = "2.23.3"
