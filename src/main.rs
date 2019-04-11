@@ -35,7 +35,7 @@ fn main() {
 
     let p = env::current_dir().unwrap();
 
-    let image = matches.value_of("image").unwrap_or("rust:1.33.0");
+    let image = m.value_of("image").unwrap_or("rust:1.33.0");
 
     if m.subcommand_matches("build-docker").is_some() {
         let mut command = Command::new("docker")
