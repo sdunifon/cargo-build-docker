@@ -20,7 +20,9 @@ fn main() {
                 .short("i")
                 .long("image")
                 .value_name("image")
-                .help("Image to use for building, e.g. rust:1.33.0")
+                .required(false)
+                .default_value("rust:1.33.0")
+                .help("Image to use for building, e.g. ")
                 .takes_value(true)));
 
     //modify this so that we can pass through the args from the command line
@@ -35,7 +37,7 @@ fn main() {
 
     let p = env::current_dir().unwrap();
 
-    let image = m.value_of("image").unwrap_or("rust:1.33.0");
+    let image = m.value_of("image").unwrap();
 
     if m.subcommand_matches("build-docker").is_some() {
         let mut command = Command::new("docker")
