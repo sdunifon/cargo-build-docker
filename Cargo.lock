@@ -24,7 +24,7 @@ version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "cargo-docker-builder"
+name = "cargo-build-docker"
 version = "0.0.5"
 dependencies = [
  "clap 2.33.0 (registry+https://github.com/rust-lang/crates.io-index)",

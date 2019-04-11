@@ -1,5 +1,8 @@
 //! A cargo subcommand for building rust projects inside docker and getting the results back.
 
+#![crate_name = "cargo_build_docker"]
+#![crate_type = "bin"]
+
 #[macro_use]
 extern crate clap;
 
@@ -9,10 +12,10 @@ use std::process::Command;
 use clap::{App, AppSettings, SubCommand, Arg};
 
 fn main() {
-    let app = App::new("cargo-docker-builder")
-        .bin_name("cargo-docker-builder")
+    let app = App::new("cargo-build-docker")
+        .bin_name("cargo")
         .setting(AppSettings::SubcommandRequired)
-        .subcommand(SubCommand::with_name("docker")
+        .subcommand(SubCommand::with_name("build-docker")
             .version(concat!("v", crate_version!()))
             .author("Steven Skone <steven@skone.net>")
             .about("Build Rust code in docker")
@@ -20,26 +23,21 @@ fn main() {
                 .short("i")
                 .long("image")
                 .value_name("image")
-                .required(false)
                 .default_value("rust:1.33.0")
-                .help("Image to use for building, e.g. ")
+                .help("Image to use for building")
                 .takes_value(true)));
 
     //modify this so that we can pass through the args from the command line
 
     let m = app.get_matches();
 
-    /*let mut command = match m.subcommand() {
-        (name, Some(matches)) => {
-            let args = matches.values_of("")
-                .map(|v| v.collect())
-                .unwrap_or(Vec::new());*/
+    if let Some(matches) = m.subcommand_matches("build-docker") {
 
-    let p = env::current_dir().unwrap();
 
-    let image = m.value_of("image").unwrap();
+        let p = env::current_dir().unwrap();
 
-    if m.subcommand_matches("build-docker").is_some() {
+        let image = matches.value_of("image").unwrap();
+
         let mut command = Command::new("docker")
             // Run new container
             .arg("run")
