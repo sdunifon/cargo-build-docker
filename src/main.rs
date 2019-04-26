@@ -9,12 +9,12 @@ extern crate clap;
 use std::env;
 use std::process::Command;
 
-use clap::{App, AppSettings, SubCommand, Arg};
+use clap::{App, AppSettings, Arg, SubCommand};
 
 fn main() {
     let app = App::new("cargo-build-docker")
         .bin_name("cargo")
-        .setting(AppSettings::SubcommandRequired)
+        .setting(AppSettings::TrailingVarArg)
         .subcommand(SubCommand::with_name("build-docker")
             .version(concat!("v", crate_version!()))
             .author("Steven Skone <steven@skone.net>")
@@ -25,18 +25,24 @@ fn main() {
                 .value_name("image")
                 .default_value("rust:1.33.0")
                 .help("Image to use for building")
-                .takes_value(true)));
+                .takes_value(true))
+            .arg(Arg::with_name("pass through args")
+                .help("Any arguments you wish to pass to the binary being profiled.")
+                .last(true)
+                .multiple(true)
+            ));
 
     //modify this so that we can pass through the args from the command line
 
     let m = app.get_matches();
 
     if let Some(matches) = m.subcommand_matches("build-docker") {
-
-
         let p = env::current_dir().unwrap();
 
         let image = matches.value_of("image").unwrap();
+        let pass_through = matches.values_of("pass through args").unwrap();
+
+        println!("passthrough: {:?}", pass_through);
 
         let mut command = Command::new("docker")
             // Run new container
@@ -52,7 +58,9 @@ fn main() {
             .args(&["-v", &format!("{}:/usr/src/myapp", p.display())])
             .args(&["-w", "/usr/src/myapp"])
             .arg(image)
-            .args(&["cargo", "build", "--release", "--lib"])
+            //.args(&["cargo", "build", "--release", "--lib"])
+            .arg("cargo")
+            .args(pass_through)
             .spawn()
             .expect("failed to execute docker");
 
