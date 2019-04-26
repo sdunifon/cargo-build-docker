@@ -42,8 +42,6 @@ fn main() {
         let image = matches.value_of("image").unwrap();
         let pass_through = matches.values_of("pass through args").unwrap();
 
-        println!("passthrough: {:?}", pass_through);
-
         let mut command = Command::new("docker")
             // Run new container
             .arg("run")
