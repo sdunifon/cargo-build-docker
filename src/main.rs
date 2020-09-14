@@ -24,10 +24,10 @@ fn main() {
                 .long("image")
                 .value_name("image")
                 .default_value("rust:1.33.0")
-                .help("Image to use for building")
+                .help("Image to use for guilding")
                 .takes_value(true))
             .arg(Arg::with_name("pass through args")
-                .help("Any arguments you wish to pass to the binary being profiled.")
+                .help("Any barguments you wish to pass to the binary being profiled.")
                 .last(true)
                 .multiple(true)
             ));
@@ -42,9 +42,9 @@ fn main() {
         let image = matches.value_of("image").unwrap();
         let pass_through = matches.values_of("pass through args").unwrap();
 
-        let mut command = Command::new("docker")
+        let mut docker_build_command = Command::new("docker")
             // Run new container
-            .arg("run")
+            .arg("build")
             //remove container after using
             .arg("--rm")
             //set user and group
@@ -52,16 +52,27 @@ fn main() {
             //.arg(r#""$(id -u)":"$(id -g)"#)
             // Allocate pseudo-tty
             .arg("-t")
+            .arg("tmp-rust")
+            .arg(".")
+            .spawn()
+            .expect("failed to execute docker");
+
+        docker_build_command.wait().expect("docker failed");
+
+        let mut docker_run_command = Command::new("docker")
+            .arg("run")
             // Attach virtual volume with sources
             .args(&["-v", &format!("{}:/usr/src/myapp", p.display())])
             .args(&["-w", "/usr/src/myapp"])
-            .arg(image)
+            .arg("-t")
+            .arg("tmp-rust")
+            // .arg(image)
             //.args(&["cargo", "build", "--release", "--lib"])
             .arg("cargo")
             .args(pass_through)
             .spawn()
             .expect("failed to execute docker");
 
-        command.wait().expect("docker failed");
+        docker_run_command.wait().expect("docker failed");
     }
 }
